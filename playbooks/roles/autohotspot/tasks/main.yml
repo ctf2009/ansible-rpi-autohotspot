@@ -48,6 +48,9 @@
 - name: copy example wpa_supplicant
   copy: src=wpa_supplicant.conf.example dest=/etc/wpa_supplicant/wpa_supplicant.conf.example owner=root group=root mode=0644
 
+- name: umask hostapd
+  shell: systemctl unmask hostapd
+
 - lineinfile:
     name: /etc/dhcpcd.conf
     line: nohook wpa_supplicant
