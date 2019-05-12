@@ -1,0 +1,7 @@
+out/
+build/
+*.logs
+*.log
+*.retry
+.idea/
+.gradle/

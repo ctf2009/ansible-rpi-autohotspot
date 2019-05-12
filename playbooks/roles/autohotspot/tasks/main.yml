@@ -1,0 +1,77 @@
+---
+
+# This installs the items required to auto create an access point if no
+# known Wifi Connection is available
+
+- name: create required directories
+  file:
+    path: "{{item}}"
+    state: directory
+    owner: pi
+    group: pi
+    mode: "755"
+  with_items:
+    - /home/pi/autohotspot
+
+- name: apt install libs
+  apt:
+    name: "{{item}}"
+  with_items:
+    - hostapd
+    - dnsmasq
+
+- name: stop services from running
+  service:
+    name: "{{item}}"
+    state: stopped
+    enabled: no
+  with_items:
+    - hostapd
+    - dnsmasq
+
+- sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: hostapd configuration
+  copy: src=hostapd.conf dest=/etc/hostapd/hostapd.conf owner=root group=root mode=0644
+
+- name: hostapd defaults
+  copy: src=hostapd dest=/etc/default/hostapd owner=root group=root mode=0644
+
+- name: dnsmasq config
+  copy: src=dnsmasq.conf dest=/etc/dnsmasq.conf owner=root group=root mode=0644
+
+- name: copy example wpa_supplicant
+  copy: src=wpa_supplicant.conf.example dest=/etc/wpa_supplicant/wpa_supplicant.conf.example owner=root group=root mode=0644
+
+- lineinfile:
+    name: /etc/dhcpcd.conf
+    line: nohook wpa_supplicant
+
+- name: autohotspot script
+  copy: src=autohotspot dest=/usr/bin/autohotspot owner=root group=root mode=0755
+
+- name: autohotspot service file
+  copy: src=autohotspot.service dest=/etc/systemd/system/autohotspot.service owner=root group=root mode=0400
+  notify: reload systemd
+
+- name: autohotspot service
+  service:
+    name: autohotspot
+    enabled: yes
+
+- name: scripts
+  copy:
+    src: "{{item}}"
+    dest: /home/pi/autohotspot/{{item}}
+    owner: pi
+    group: pi
+    mode: "755"
+  with_items:
+    - disable.sh
+    - enable.sh
+    - check.sh
