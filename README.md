@@ -8,7 +8,7 @@ All credit for the auto hotspot scripts go to raspberryconnect.com
 
 This is simply a demonstration of how to automate this for simple deployment onto a raspberry pi
 
-This has been tested on Raspbian Jessie
+This has been tested on Raspbian Stretch Lite April 2019
 
 ### Prerequisites 
 This guide assumes the following. 
