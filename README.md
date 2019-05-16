@@ -1,6 +1,16 @@
-## Ansible RPi Auto Hotspot 
+## Ansible RPi Examples
 
-This is an example that demonstrates how to deploy the auto hotspot as described at 
+This is a repository contaning a number of useful roles and example simple playbooks / scripts that can be installed on a Raspberry Pi
+
+The following roles are currently included
+
+- ping
+- autohotspot (Based upon the tutorial at [http://www.raspberryconnect.com]([http://www.raspberryconnect.com)
+- samba
+
+#### Auto Hotspot
+
+This role will create an auto hotspot as described at 
 
 [http://www.raspberryconnect.com/network/item/331-raspberry-pi-auto-wifi-hotspot-switch-no-internet-routing](http://www.raspberryconnect.com/network/item/331-raspberry-pi-auto-wifi-hotspot-switch-no-internet-routing)
 
@@ -10,7 +20,14 @@ This is simply a demonstration of how to automate this for simple deployment ont
 
 This has been tested on Raspbian Stretch Lite April 2019
 
-### Prerequisites 
+#### Samba
+
+Currrenly this simply installs samba and supporting libraries. A future commit will add additional functionality
+
+
+
+
+## Prerequisites 
 This guide assumes the following. 
 
 - You are running this from a *nix based OS
@@ -28,7 +45,8 @@ If you do not have any network to connect the Pi to, you can put the Pi into RND
 ### How to Run
 
 - Clone this repository to your local machine
-- Run the `run_ping.sh` script to verify that the Pi is available. 
+
+- Run one of the scripts ... for example, `run_ping.sh` script to verify that the Pi is available. 
 
 ```
 ./run_ping.sh 
@@ -46,7 +64,7 @@ PLAY RECAP *********************************************************************
 raspberrypi.local          : ok=2    changed=0    unreachable=0    failed=0 
 
 ```
-- If all is good. Try running the `run_provision.sh` script. **This will take a few minutes to complete.**
+- An example of running the `autohotspot.sh` script
 
 ```
 ./run_provision.sh 
@@ -112,12 +130,11 @@ PLAY RECAP *********************************************************************
 raspberrypi.local          : ok=16   changed=15   unreachable=0    failed=0 
 ```
 
-Once completed, the auto hotspot should be enabled by default. If on restart a known Wifi connection cannot be found, the Pi will create its own Hotspot named `raspberrypi`
+Once completed, the auto hotspot should be enabled by default. If on restart a known Wifi connection cannot be found, the Pi will create its own Hotspot which defaults to ssid `raspberrypi` and password `raspberry`
 
-### Known Issues
+You can even provide your own ssid and password as role variables if desired in the playbook. You can use Ansible Vault to protect the password
 
-There are also come deprecation warnings with ansible > v2.7 
-This will be corrected shortly
+- You can run a playbook containing all the roles by running `run_all.sh` ... Currently this will ping the raspberry pi, install samba and deploy the autohotspot in one go. This will take the longest to run
 
 
 

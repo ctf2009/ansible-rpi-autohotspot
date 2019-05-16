@@ -1,0 +1,13 @@
+---
+
+# This installs samba and supporting libraries
+
+- name: apt install libs
+  apt:
+    name: "{{packages}}"
+  vars:
+    packages:
+      - samba
+      - samba-common-bin
+      - smbclient
+      - cifs-utils

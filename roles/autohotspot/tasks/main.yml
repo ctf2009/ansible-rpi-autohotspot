@@ -15,10 +15,11 @@
 
 - name: apt install libs
   apt:
-    name: "{{item}}"
-  with_items:
-    - hostapd
-    - dnsmasq
+    name: "{{packages}}"
+  vars:
+    packages:
+      - hostapd
+      - dnsmasq
 
 - name: stop services from running
   service:
@@ -37,7 +38,7 @@
     reload: yes
 
 - name: hostapd configuration
-  copy: src=hostapd.conf dest=/etc/hostapd/hostapd.conf owner=root group=root mode=0644
+  template: src=hostapd.conf dest=/etc/hostapd/hostapd.conf owner=root group=root mode=0644
 
 - name: hostapd defaults
   copy: src=hostapd dest=/etc/default/hostapd owner=root group=root mode=0644
