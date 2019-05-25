@@ -1,0 +1,10 @@
+---
+
+# This installs gpio supporting libraries
+
+- name: apt install libs
+  apt:
+    name: "{{packages}}"
+  vars:
+    packages:
+      - pigpio

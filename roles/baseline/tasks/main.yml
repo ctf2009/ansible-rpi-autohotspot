@@ -1,0 +1,9 @@
+---
+
+- name: apt install libs
+  apt:
+    name: "{{item}}"
+  with_items:
+    - jq
+    - git
+    - vim
